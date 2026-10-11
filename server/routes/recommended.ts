@@ -17,6 +17,10 @@ recommendedRoutes.get('/', async (req, res, next) => {
       {
         page: Number(req.query.page) || 1,
         language: (req.query.language as string) ?? req.locale,
+        mediaType:
+          req.query.mediaType === 'movie' || req.query.mediaType === 'tv'
+            ? req.query.mediaType
+            : 'all',
       }
     );
     return res.status(200).json(results);

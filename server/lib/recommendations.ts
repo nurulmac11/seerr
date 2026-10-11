@@ -148,7 +148,11 @@ const rankRecommendations = async (
 export const getRecommendations = async (
   user: User,
   tmdb: TheMovieDb,
-  { page = 1, language }: { page?: number; language?: string } = {}
+  {
+    page = 1,
+    language,
+    mediaType = 'all',
+  }: { page?: number; language?: string; mediaType?: 'all' | 'movie' | 'tv' } = {}
 ): Promise<{
   page: number;
   totalPages: number;
@@ -169,7 +173,9 @@ export const getRecommendations = async (
     cache.set(cacheKey, entry);
     entry.ranked.catch(() => cache.delete(cacheKey));
   }
-  const ranked = await entry.ranked;
+  const ranked = (await entry.ranked).filter(
+    (r) => mediaType === 'all' || r.mediaType === mediaType
+  );
 
   const currentPage = Math.max(1, Math.floor(page));
   const start = (currentPage - 1) * RECOMMENDATIONS_PAGE_SIZE;

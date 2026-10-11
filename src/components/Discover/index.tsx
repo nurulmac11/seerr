@@ -224,6 +224,7 @@ const Discover = () => {
                 sliderKey="recommended-for-you"
                 title={intl.formatMessage(sliderTitles.recommendedForYou)}
                 url="/api/v1/discover/recommended"
+                linkUrl="/discover/recommended"
                 hideWhenEmpty
               />
             );
